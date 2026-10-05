@@ -74,7 +74,9 @@ object DeviceCapabilities {
         w = w / wa * wa
         h = h / ha * ha
         if (w <= 0 || h <= 0) return null
-        return if (vc.areSizeAndRateSupported(w, h, fps.toDouble())) Pair(w, h) else null
+        return if (vc.areSizeAndRateSupported(w, h, fps.toDouble()) ||
+            vc.areSizeAndRateSupported(h, w, fps.toDouble())
+        ) Pair(w, h) else null
     }
 
     fun detect(context: Context): DeviceCaps {
@@ -112,7 +114,7 @@ object DeviceCapabilities {
         val info = encoderInfo() ?: return null
         val vc = info.getCapabilitiesForType(MIME).videoCapabilities
         val targets = (if (settings.resolution > 0) listOf(settings.resolution) else emptyList()) +
-                listOf(min(1080, nShort), min(720, nShort), nShort)
+                listOf(min(1080, nShort), min(720, nShort), min(540, nShort), min(480, nShort), nShort)
         val requestedFps = if (settings.fps >= 60 && refreshRate(context) >= 59f) 60 else 30
         val fpsList = listOf(requestedFps, 30).distinct()
         for (t in targets.distinct()) {
