@@ -95,7 +95,8 @@ class RecordingService : Service() {
 
         accumulatedMs = 0L
         segmentStartMs = 0L
-        RecorderStateHolder.set(RecorderUiState(RecorderState.STARTING, countdown = settings.countdownSeconds))
+        val startCountdown = if (settings.quickStart) 0 else settings.countdownSeconds
+        RecorderStateHolder.set(RecorderUiState(RecorderState.STARTING, countdown = startCountdown))
         try {
             ServiceCompat.startForeground(this, NOTIF_ID, buildNotification(), type)
         } catch (t: Throwable) {
@@ -131,7 +132,7 @@ class RecordingService : Service() {
         p.registerCallback(callback, Handler(Looper.getMainLooper()))
 
         startJob = scope.launch {
-            var n = settings.countdownSeconds
+            var n = startCountdown
             while (n > 0) {
                 RecorderStateHolder.update { it.copy(countdown = n) }
                 refreshNotification()

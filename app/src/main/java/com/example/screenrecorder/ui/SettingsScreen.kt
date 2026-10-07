@@ -93,6 +93,25 @@ fun SettingsScreen(vm: MainViewModel) {
                     onCheckedChange = { v -> vm.updateSettings { it.copy(keepScreenOn = v) } }
                 )
             }
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text("Quick Start Recording")
+                    Text(
+                        "Start recording using the fastest available recording flow.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = settings.quickStart,
+                    onCheckedChange = { v -> vm.updateSettings { it.copy(quickStart = v) } }
+                )
+            }
+            Text(
+                "Open Android Quick Settings → Edit → Add Screen Recorder.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
 
         SectionCard("About") {

@@ -20,5 +20,6 @@ data class AppSettings(
     val orientation: OrientationMode = OrientationMode.AUTO,
     val countdownSeconds: Int = 0,
     val audio: AudioMode = AudioMode.NONE,
-    val keepScreenOn: Boolean = false
+    val keepScreenOn: Boolean = false,
+    val quickStart: Boolean = false
 )

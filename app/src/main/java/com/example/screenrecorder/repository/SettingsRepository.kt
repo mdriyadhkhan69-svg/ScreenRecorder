@@ -24,7 +24,8 @@ class SettingsRepository(context: Context) {
         audio = runCatching {
             AudioMode.valueOf(prefs.getString("audio", null) ?: "NONE")
         }.getOrDefault(AudioMode.NONE),
-        keepScreenOn = prefs.getBoolean("keepScreenOn", false)
+        keepScreenOn = prefs.getBoolean("keepScreenOn", false),
+        quickStart = prefs.getBoolean("quickStart", false)
     )
 
     fun update(transform: (AppSettings) -> AppSettings) {
@@ -36,6 +37,7 @@ class SettingsRepository(context: Context) {
             .putString("orientation", next.orientation.name)
             .putInt("countdown", next.countdownSeconds)
             .putString("audio", next.audio.name)
+            .putBoolean("quickStart", next.quickStart)
             .putBoolean("keepScreenOn", next.keepScreenOn)
             .apply()
     }
